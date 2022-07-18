@@ -30,18 +30,22 @@ if __name__ == "__main__":
         if((x,y)) in body:
             game_over = True
             return
-
+        
         body.append((x, y)) 
+        print(body)
+
         if(food_x == x and food_y == y):
-            while((food_x, food_y) in body):
-                food_x, food_y = random.randrange(0,width)//10*10, random.randrange(0, height)//10*10
-            else:
-                del body[0]    
+            print(body)
+            body.append((x, y)) 
+            while (food_x, food_y) in body:
+                food_x, food_y = random.randrange(0,width)//10*10, random.randrange(0, height)//10*10   
+        else:
+            del body[0]
 
         surface.fill((255, 255, 255))
         pygame.draw.rect(surface, (0, 255, 0), [food_x, food_y, 10, 10])
         for (i,j) in body:
-            pygame.draw.rect(surface, (0, 0, 0), [x, y, 10, 10] )
+            pygame.draw.rect(surface, (0, 0, 0), [i, j, 10, 10] )
         pygame.display.update()
 
 
