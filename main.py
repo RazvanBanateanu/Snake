@@ -22,8 +22,12 @@ if __name__ == "__main__":
 
     game_over = False
 
+    score = 0
+
+    font = pygame.font.SysFont("bahnschrift", 25)
+
     def snake():
-        global x, y, food_x, food_y, game_over
+        global x, y, food_x, food_y, game_over, score
         x=(x+delta_x)%width
         y=(y+delta_y)%height
 
@@ -32,10 +36,9 @@ if __name__ == "__main__":
             return
         
         body.append((x, y)) 
-        print(body)
 
         if(food_x == x and food_y == y):
-            print(body)
+            score+=1
             body.append((x, y)) 
             while (food_x, food_y) in body:
                 food_x, food_y = random.randrange(0,width)//10*10, random.randrange(0, height)//10*10   
@@ -43,6 +46,8 @@ if __name__ == "__main__":
             del body[0]
 
         surface.fill((255, 255, 255))
+        sc = font.render(f'{score}', True, (0, 0, 0))
+        surface.blit(sc, [380, 10])
         pygame.draw.rect(surface, (0, 255, 0), [food_x, food_y, 10, 10])
         for (i,j) in body:
             pygame.draw.rect(surface, (0, 0, 0), [i, j, 10, 10] )
@@ -51,6 +56,11 @@ if __name__ == "__main__":
 
     while True:
         if(game_over):
+            surface.fill((0,0,0))
+            msg = font.render("GAME OVER", True, (255, 255, 255))
+            surface.blit(msg, [width//3, height//3])
+            pygame.display.update()
+            time.sleep(5)
             pygame.quit()
             quit()
             
@@ -86,5 +96,5 @@ if __name__ == "__main__":
                 
         if(not events):
             snake()
-        clock.tick(10)            
+        clock.tick(15)            
            
